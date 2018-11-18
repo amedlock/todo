@@ -1,4 +1,4 @@
-import os, tables, strutils, sequtils, parseopt, algorithm,times;
+import os, tables, strutils, sequtils, parseopt, algorithm,times, terminal;
 
 # Todo.txt utility
 
@@ -64,11 +64,11 @@ type
     status : Status
 
 
-proc `$`(t : Todo) : string = 
-  var index = ($t.index).alignLeft(3)
-  var status = ($t.status).alignLeft(20)
-  var desc = ($t.desc).alignLeft(3)
-  result = "$1$2$3".format( index, status , desc )
+proc display( t : Todo ) =
+  styledWrite( stdout, fgRed, ($t.index).alignLeft(3) )
+  styledWrite( stdout, fgBlue, ($t.status).alignLeft(20) )
+  styledWriteLine( stdout, fgWhite, t.desc )
+  resetAttributes()
 
 proc update_status( t : var Todo, s : Status ) =
   if t.status==s:
@@ -147,10 +147,10 @@ proc handle( cmd: Cmd, todos: var seq[Todo]) =
     if cmd.topic.len>0:
       echo("Listing tasks with topic:$1".format(cmd.topic))
       for t in todos.filterIt( it.desc.has_topic(cmd.topic) ):
-        echo( $t )
+        t.display()
     else:
       for t in todos:
-        echo( $t )
+        t.display()
     return
   elif cmd.action == "add":
     todos.add_todo( Status.Unstarted, cmd.text.strip(true, true,{'"'}).strip() )
