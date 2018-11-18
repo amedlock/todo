@@ -1,8 +1,8 @@
 ## todo
 
-** Todo.txt command line utility **
+**Todo.txt command line utility**
 
-to build:
+To build:
 ```
 nim c todo.nim
 ```
