@@ -7,6 +7,13 @@ To build:
 nim c todo.nim
 ```
 
+```
+todo list
+```
+Colored output:
+
+![SS](ss.png)
+
 Display help with:
 ```
 todo help

@@ -46,7 +46,6 @@ Inside the description @topic marks the task as belonging to a specific topic
 
 type
   Status = enum
-    Comment
     Unstarted
     Started
     Optional
@@ -65,8 +64,15 @@ type
 
 
 proc display( t : Todo ) =
-  styledWrite( stdout, fgRed, ($t.index).alignLeft(3) )
-  styledWrite( stdout, fgBlue, ($t.status).alignLeft(20) )
+  styledWrite( stdout, fgYellow, ($t.index).alignLeft(3) )
+  var color = fgBlue
+  if t.status==Started:
+    color = fgGreen
+  elif t.status==Paused:
+    color = fgRed
+  elif t.status==Done:
+    color = fgMagenta
+  styledWrite( stdout, color, ($t.status).alignLeft(20) )
   styledWriteLine( stdout, fgWhite, t.desc )
   resetAttributes()
 
